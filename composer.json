@@ -1,0 +1,32 @@
+{
+  "name": "snowrunescape/eloquent-orderable",
+  "description": "Eloquent extension for soft deletes using a status field",
+  "type": "library",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Bruno Caitano",
+      "email": "snowrunescape@snowdev.com.br",
+      "homepage": "https://snowdev.com.br"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "SnowRunescape\\SoftDeletes\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "SnowRunescape\\SoftDeletes\\Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "php": ">=7.4",
+    "illuminate/database": "^8.0|^9.0|^10.0|^11.0",
+    "illuminate/events": "^8.0|^9.0|^10.0|^11.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.6"
+  }
+}

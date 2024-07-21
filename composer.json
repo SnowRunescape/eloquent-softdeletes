@@ -1,5 +1,5 @@
 {
-  "name": "snowrunescape/eloquent-orderable",
+  "name": "snowrunescape/eloquent-softdeletes",
   "description": "Eloquent extension for soft deletes using a status field",
   "type": "library",
   "minimum-stability": "stable",

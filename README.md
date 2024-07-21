@@ -19,8 +19,7 @@ composer require snowrunescape/eloquent-softdeletes
 
 ## Usage
 
-Use the Orderable trait in your Eloquent model.
-Optionally, define the $sortable property in your model class to customize column names and options.
+Use the SoftDeletes trait in your Eloquent model.
 
 ### Example
 

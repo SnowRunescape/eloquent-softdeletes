@@ -20,29 +20,23 @@ class SoftDeletesTest extends TestCase
 
         $this->assertEquals(2, Post::count());
 
-        Post::create(['title' => 'Three Post', 'status' => Post::STATUS['active']]);
-
+        $thirdPost = Post::create(['title' => 'Third Post', 'status' => Post::STATUS['active']]);
         $this->assertEquals(3, Post::count());
 
-        Post::create(['title' => 'Three Post', 'status' => Post::STATUS['deleted']]);
-
-        $this->assertEquals(3, Post::count());
-        $this->assertEquals(4, Post::withTrashed()->count());
-
-
+        $thirdPost->delete();
+        $this->assertEquals(2, Post::count());
+        $this->assertEquals(3, Post::withTrashed()->count());
         $this->assertEquals(1, Post::onlyTrashed()->count());
     }
 
     public function testRestoreDeletedPost()
     {
         Post::create(['title' => 'First Post', 'status' => Post::STATUS['active']]);
-        Post::create(['title' => 'Second Post', 'status' => Post::STATUS['deleted']]);
+        $deletedPost = Post::create(['title' => 'Second Post', 'status' => Post::STATUS['deleted']]);
 
         $this->assertEquals(1, Post::count());
 
-        $post = Post::onlyTrashed()->first();
-        $post->restore();
-
+        $deletedPost->restore();
         $this->assertEquals(2, Post::count());
     }
 
@@ -53,7 +47,20 @@ class SoftDeletesTest extends TestCase
         $this->assertEquals(1, Post::count());
 
         $post->delete();
-
         $this->assertEquals(0, Post::count());
+        $this->assertEquals(1, Post::onlyTrashed()->count());
+    }
+
+    public function testQueryIncludingSoftDeletedRecords()
+    {
+        Post::create(['title' => 'Active Post', 'status' => Post::STATUS['active']]);
+        Post::create(['title' => 'Deleted Post', 'status' => Post::STATUS['deleted']]);
+
+        $allPosts = Post::withTrashed()->get();
+        $this->assertCount(2, $allPosts);
+
+        $deletedPosts = Post::onlyTrashed()->get();
+        $this->assertCount(1, $deletedPosts);
+        $this->assertEquals('Deleted Post', $deletedPosts->first()->title);
     }
 }
